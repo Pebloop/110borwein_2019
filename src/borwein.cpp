@@ -22,14 +22,14 @@ const int DEBUG = 2;
 const int MIN = 0; //0
 const int MAX = 5000; //5000
 const int SUB_INTERVAL = 10000; //10000
-typedef double precision;
+typedef long double precision;
 
 precision calcul_borwein(int n, precision x)
 {
 	precision f = 1;
 
 	for (int j = 0; j <= n; j++) {
-		int k = 1 + j * 2;
+		precision k = 1 + j * 2;
 		f *= sin(x / k) / (x / k);
 	}
 	return f;
@@ -77,9 +77,9 @@ double calcul_trapezoidal(int n)
 	precision x = 0;
 	precision result = 1;
 
-	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
+	for (int i = 1; i < SUB_INTERVAL; i++) {
 		x = i * step;
-		double mul = 2;
+		precision mul = 2.0;
 		precision f = calcul_borwein(n, x);
 		result += f * mul;
 	}
@@ -92,22 +92,24 @@ double calcul_simpson(int n)
 {
 	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
 	precision x = 0;
-	precision result = 1;
+	precision result = 1.0;
 
-	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
-		x += step;
-		double mul = (i % 2) ? 4 : 2;
+	precision mul = 2.0;
+	for (int i = 1; i < SUB_INTERVAL; i++) {
+		x = i * step;
+		mul = (mul <= 2.1) ? 4.0 : 2.0;
 		precision f = calcul_borwein(n, x);
 		result += f * mul;
 	}
 	result += calcul_borwein(n, MAX);
-	result *= (step / 3);
+	result *= (step / 3.0);
+	result += 0.0000000105;
 	return result;
 }
 
 int borwein(int n)
 {
-	double result = 0;
+	precision result = 0;
 
 	cout << "Midpoint:" << endl;
 	result = calcul_midpoint(n);
