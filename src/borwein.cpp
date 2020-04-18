@@ -74,8 +74,8 @@ double calcul_midpoint(int n)
 double calcul_trapezoidal(int n)
 {
 	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
-	precision x = 1 / 10000000.0;
-	precision result = calcul_borwein(n, x);
+	precision x = 0;
+	precision result = 1;
 
 	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
 		x = i * step;
@@ -91,11 +91,11 @@ double calcul_trapezoidal(int n)
 double calcul_simpson(int n)
 {
 	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
-	precision x = 1 / 10000000.0;
-	precision result = calcul_borwein(n, x);
+	precision x = 0;
+	precision result = 1;
 
 	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
-		x = i * step;
+		x += step;
 		double mul = (i % 2) ? 4 : 2;
 		precision f = calcul_borwein(n, x);
 		result += f * mul;
@@ -111,17 +111,17 @@ int borwein(int n)
 
 	cout << "Midpoint:" << endl;
 	result = calcul_midpoint(n);
-	cout << "IO = " << fixed << setprecision(10)<< result << endl;
+	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl << endl;
 
 	cout << "Trapezoidal:" << endl;
 	result = calcul_trapezoidal(n);
-	cout << "IO = " << fixed << setprecision(10)<< result << endl;
+	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl << endl;
 
 	cout << "Simpson:" << endl;
 	result = calcul_simpson(n);
-	cout << "IO = " << fixed << setprecision(10)<< result << endl;
+	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl;
 	return 0;
 }
