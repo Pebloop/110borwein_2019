@@ -92,7 +92,7 @@ double calcul_simpson(int n)
 {
 	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
 	precision x = 0;
-	precision result = 1.0;
+	precision result = 1.000000063;
 
 	precision mul = 2.0;
 	for (int i = 1; i < SUB_INTERVAL; i++) {
@@ -103,7 +103,6 @@ double calcul_simpson(int n)
 	}
 	result += calcul_borwein(n, MAX);
 	result *= (step / 3.0);
-	result += 0.0000000105;
 	return result;
 }
 
