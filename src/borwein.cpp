@@ -16,13 +16,24 @@
 //namespaces
 using namespace std;
 
-const int DEBUG = 0;
+const int DEBUG = 2;
 
 //const
 const int MIN = 0; //0
 const int MAX = 5000; //5000
 const int SUB_INTERVAL = 10000; //10000
-typedef long double precision;
+typedef double precision;
+
+precision calcul_borwein(int n, precision x)
+{
+	precision f = 1;
+
+	for (int j = 0; j <= n; j++) {
+		int k = 1 + j * 2;
+		f *= sin(x / k) / (x / k);
+	}
+	return f;
+}
 
 double calcul_midpoint(int n)
 {
@@ -30,44 +41,68 @@ double calcul_midpoint(int n)
 	precision x0 = 0, x1 = 0;
 	precision result = 0;
 
-	if (DEBUG) cout << "/\\x = " << step << endl;
+	if (DEBUG == 1) cout << "/\\x = " << step << endl;
 	for (int i = 0; i < SUB_INTERVAL; i++) {
-		if (DEBUG) cout << "=============INTERVAL N°" << i << "==============" << endl;
+		if (DEBUG == 1) cout << "=============INTERVAL N°" << i << "==============" << endl;
 		x0 = i * step;
 		x1 = (i + 1) * step;
-		if (DEBUG) {
+		if (DEBUG == 1) {
 			cout << "x0 = " << x0 << endl;
 			cout << "x1 = " << x1 << endl;
 		}
 		precision x = (x0 + x1) / 2;
-		if (DEBUG) cout << "x = " << x << endl;
+		if (DEBUG == 1) cout << "x = " << x << endl;
 		precision f = 1;
-		if (DEBUG) cout << "=============f(x)==============" << endl;
+		if (DEBUG == 1) cout << "=============f(x)==============" << endl;
 		for (int j = 0; j <= n; j++) {
 			int k = 1 + j * 2;
 			f *= sin(x / k) / (x / k);
-			if (DEBUG) {
+			if (DEBUG == 1) {
 				cout << "k = " << k << endl;
 				cout << "f(x) = " << f << endl;
 			}
 		}
 		result += f;
-		if (DEBUG) cout << "result = " << result << endl;
+		if (DEBUG == 1) cout << "result = " << result << endl;
 	}
 	result *= step;
-	if (DEBUG) cout << "FINAL RESULT : " << result << endl;
-	if (DEBUG) cout << "===============================" << endl;
+	if (DEBUG == 1) cout << "FINAL RESULT : " << result << endl;
+	if (DEBUG == 1) cout << "===============================" << endl;
 	return result;
 }
 
 double calcul_trapezoidal(int n)
 {
-	return 0;
+	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
+	precision x = 1 / 10000000.0;
+	precision result = calcul_borwein(n, x);
+
+	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
+		x = i * step;
+		double mul = 2;
+		precision f = calcul_borwein(n, x);
+		result += f * mul;
+	}
+	result += calcul_borwein(n, MAX);
+	result *= (step / 2);
+	return result;
 }
 
 double calcul_simpson(int n)
 {
-	return 0;
+	precision step = (MAX - MIN) / (SUB_INTERVAL * 1.0);
+	precision x = 1 / 10000000.0;
+	precision result = calcul_borwein(n, x);
+
+	for (int i = 1; i < SUB_INTERVAL - 1; i++) {
+		x = i * step;
+		double mul = (i % 2) ? 4 : 2;
+		precision f = calcul_borwein(n, x);
+		result += f * mul;
+	}
+	result += calcul_borwein(n, MAX);
+	result *= (step / 3);
+	return result;
 }
 
 int borwein(int n)
