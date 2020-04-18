@@ -46,5 +46,7 @@ int main(int argc, char *argv[])
         perror("overflow error, exit program\n");
     	return 84;
     }
+	if (n < 0)
+		return 84;
 	return borwein(n);
 }
