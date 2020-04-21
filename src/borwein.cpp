@@ -112,17 +112,17 @@ int borwein(int n)
 
 	cout << "Midpoint:" << endl;
 	result = calcul_midpoint(n);
-	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
+	cout << "I" << n << " = " << fixed << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl << endl;
 
 	cout << "Trapezoidal:" << endl;
 	result = calcul_trapezoidal(n);
-	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
+	cout << "I" << n << " = " << fixed << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl << endl;
 
 	cout << "Simpson:" << endl;
 	result = calcul_simpson(n);
-	cout << "I0 = " << fixed << setprecision(10)<< result << endl;
+	cout << "I" << n << " = " << setprecision(10)<< result << endl;
 	cout << "diff = " << fixed << setprecision(10)<< abs(M_PI_2 - result) << endl;
 	return 0;
 }
